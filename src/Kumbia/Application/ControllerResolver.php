@@ -4,16 +4,56 @@
  * kumbia_pimple
  */
 
-namespace Kumbia;
+namespace Kumbia\Application;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Controller\ControllerResolver as BaseController;
+use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
 
 /**
  * @autor Manuel Aguirre <programador.manuel@gmail.com>
  */
-class ControllerResolver extends BaseController
+class ControllerResolver implements ControllerResolverInterface
 {
+    protected $controllerPath;
+
+    function __construct($controllerPath)
+    {
+        $this->controllerPath = $controllerPath;
+    }
+
+    public function getController(Request $request)
+    {
+        $attributes = $request->attributes->all();
+
+        $filename = $this->controllerPath . $attributes['_controller_path'] . 'Controller.php';
+
+        if (!is_file($filename)) {
+            throw new \InvalidArgumentException(sprintf('No existe el Controlador %s', $filename));
+        }
+
+        require_once $filename;
+
+        $controllerClass = $attributes['_controller'] . 'Controller';
+
+        $controller = new $controllerClass();
+
+        $callable = array($controller, $attributes['_action']);
+
+        if (!is_callable($callable)) {
+            throw new \InvalidArgumentException(sprintf('Controller "%s::%s" for URI "%s" is not callable.'
+                , $controllerClass, $attributes['_action'], $request->getPathInfo()));
+        }
+
+        return $callable;
+    }
+
+    public function getArguments(Request $request, $controller)
+    {
+        $r = new \ReflectionMethod($controller[0], $controller[1]);
+
+        return $this->doGetArguments($request, $controller, $r->getParameters());
+    }
+
 
     protected function doGetArguments(Request $request, $controller, array $parameters)
     {

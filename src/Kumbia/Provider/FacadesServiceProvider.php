@@ -6,25 +6,17 @@
 
 namespace Kumbia\Provider;
 
+use Kumbia\Application\Application;
+use Kumbia\Application\ServiceProvider;
 use Kumbia\InputService;
 use Kumbia\Redirect;
 use Pimple\Container;
-use Pimple\ServiceProviderInterface;
 
 /**
  * @autor Manuel Aguirre <programador.manuel@gmail.com>
  */
-class FacadesServiceProvider implements ServiceProviderInterface
+class FacadesServiceProvider extends ServiceProvider
 {
-
-    /**
-     * Registers services on the given container.
-     *
-     * This method should only be used to configure services and parameters.
-     * It should not get services.
-     *
-     * @param Container $pimple An Container instance
-     */
     public function register(Container $pimple)
     {
         $pimple['input_service'] = function ($c) {
@@ -34,8 +26,18 @@ class FacadesServiceProvider implements ServiceProviderInterface
         $pimple['redirect'] = function ($c) {
             return new Redirect($c['request_stack']);
         };
+    }
 
-        $pimple->registerFacade('Input', __DIR__ . '/../Facades/Input.php');
-        $pimple->registerFacade('Redirect', __DIR__ . '/../Facades/Redirect.php');
+    public function getFacades()
+    {
+        return array(
+            'Input' => __DIR__ . '/../Facades/Input.php',
+            'Redirect' => __DIR__ . '/../Facades/Redirect.php',
+        );
+    }
+
+    public function boot(Application $app)
+    {
+
     }
 }

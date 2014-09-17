@@ -4,7 +4,7 @@
  * kumbia_pimple
  */
 
-namespace Kumbia;
+namespace Kumbia\Application;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -17,7 +17,13 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class RouteListener implements EventSubscriberInterface
 {
 
-    private $defaultController = 'indexController::index';
+    private $controllerPath;
+
+    function __construct($controllerPath)
+    {
+        $this->controllerPath = $controllerPath;
+    }
+
 
     public static function getSubscribedEvents()
     {
@@ -32,14 +38,23 @@ class RouteListener implements EventSubscriberInterface
         $request = $event->getRequest();
 
         $url = $request->getPathInfo();
+        $module = false;
         $controller = 'index';
         $action = 'index';
         $parameters = array();
 
-        $request->attributes->set('_parameters', array());
-
         if ($url != '/') {
             $url_items = explode('/', trim($url, '/'));
+
+            // El primer parametro de la url es un módulo?
+            if (is_dir($this->controllerPath . $url_items[0])) {
+                $module = $url_items[0];
+
+                // Si no hay mas parametros sale
+                if (next($url_items) === false) {
+                    goto set_attributes;
+                }
+            }
 
             $controller = current($url_items);
 
@@ -58,9 +73,10 @@ class RouteListener implements EventSubscriberInterface
 
         set_attributes:
 
-        $request->attributes->set('_controller', "{$controller}Controller::{$action}");
+        $request->attributes->set('_module', $module);
+        $request->attributes->set('_controller', $controller);
+        $request->attributes->set('_controller_path', $module ? $module . '/' . $controller : $controller);
+        $request->attributes->set('_action', $action);
         $request->attributes->set('_parameters', $parameters);
-        $request->attributes->set('_route_controller', $controller);
-        $request->attributes->set('_route_action', $action);
     }
 }
