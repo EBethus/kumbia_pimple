@@ -5,9 +5,11 @@ Prueba de un refactoring de kumbiaphp basado en pimple y componentes de symfony.
 
 ## Por ahora tiene
 
- * Manejo de router para controllers estilo KumbiaPHP (pero sin módulos).
+ * Manejo de router para controllers estilo KumbiaPHP.
  * Manejo de Redirecciones estilo KumbiaPHP (Redirect::to() y Redirect::toAction()).
  * Manejo del Request (Input::get(), Input::post(), Input::hasPost(), Input::isAjax()).
+ * Helpers Tag y Html.
+ * Manejo de Vistas (Solo vista y template, sin cache ni partials).
  
 Además aporta todos los beneficios de la DependencyInjection y agregar escuchas de eventos para extender las funcionalidades en las aplicaciones.
 
