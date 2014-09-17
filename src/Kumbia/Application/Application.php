@@ -10,6 +10,7 @@ use Composer\Autoload\ClassLoader;
 use Kumbia\Facades\AbstractFacade;
 use Kumbia\Provider\ApplicationServiceProvider;
 use Kumbia\Provider\FacadesServiceProvider;
+use Kumbia\View\Provider\ViewServiceProvider;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,6 +30,7 @@ class Application extends Container
 
         $this->register(new ApplicationServiceProvider());
         $this->register(new FacadesServiceProvider());
+        $this->register(new ViewServiceProvider());
 
         AbstractFacade::setContainer($this);
 

@@ -15,8 +15,12 @@ class indexController
 {
     public function index($otro = 'jeje')
     {
-        return Redirect::to('index/home');
-        return Redirect::toAction('home');
+//        return Redirect::to('index/home');
+//        return Redirect::toAction('home');
+
+        $this->name = 'Manuel';
+
+//        View::select(null);
     }
 
     public function home(Request $request)

@@ -11,6 +11,8 @@ class userController
 {
     public function index()
     {
+        View::select('manuel');
+
         return 'Hola';
     }
 

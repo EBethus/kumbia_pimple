@@ -8,11 +8,9 @@ namespace Kumbia\Provider;
 
 use Kumbia\Application\Application;
 use Kumbia\Application\ControllerResolver;
-use Kumbia\Application\CreateResponseListener;
 use Kumbia\Application\RouteListener;
 use Kumbia\Application\ServiceProvider;
 use Pimple\Container;
-use Pimple\ServiceProviderInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\HttpKernel;
@@ -34,7 +32,7 @@ class ApplicationServiceProvider extends ServiceProvider
      */
     public function register(Container $pimple)
     {
-        $pimple['app.controller_path'] = realpath($pimple['root_dir'] . 'controller') . '/';
+        $pimple['app.controller_path'] = realpath($pimple['root_dir'] . 'controllers') . '/';
 
         $pimple['event_dispatcher'] = function () {
             return new EventDispatcher();
@@ -56,7 +54,6 @@ class ApplicationServiceProvider extends ServiceProvider
     public function boot(Application $app)
     {
         $app['event_dispatcher']->addSubscriber(new RouteListener($app['app.controller_path']));
-        $app['event_dispatcher']->addSubscriber(new CreateResponseListener());
     }
 
 
