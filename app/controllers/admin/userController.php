@@ -11,9 +11,7 @@ class userController
 {
     public function index()
     {
-        View::select('manuel');
-
-        return 'Hola';
+        View::select('lista');
     }
 
     public function redirect()

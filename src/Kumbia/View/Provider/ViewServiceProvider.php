@@ -10,6 +10,8 @@ use Kumbia\Application\Application;
 use Kumbia\Application\ServiceProvider;
 use Kumbia\View\CreateResponseListener;
 use Kumbia\View\GetControllerPropertiesListener;
+use Kumbia\View\Helper\Html;
+use Kumbia\View\Helper\Tag;
 use Kumbia\View\View;
 use Pimple\Container;
 
@@ -41,13 +43,29 @@ class ViewServiceProvider extends ServiceProvider
         $pimple['response_listener'] = function ($c) {
             return new CreateResponseListener($c['controller_properties_listener'], $c['view']);
         };
+
+        $this->registerHelpers($pimple);
     }
 
     public function getFacades()
     {
         return array(
             'View' => __DIR__ . '/../Facade/View.php',
+            //helpers
+            'Tag' => __DIR__ . '/../Facade/Tag.php',
+            'Html' => __DIR__ . '/../Facade/Html.php',
         );
+    }
+
+    protected function registerHelpers($app)
+    {
+        $app['tag_helper'] = function ($c) {
+            return new Tag($c['request_stack']);
+        };
+
+        $app['html_helper'] = function ($c) {
+            return new Html($c['request_stack'], $c['tag_helper']);
+        };
     }
 
 

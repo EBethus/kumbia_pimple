@@ -44,19 +44,17 @@ class CreateResponseListener implements EventSubscriberInterface
     public function createResponse(GetResponseForControllerResultEvent $event)
     {
         $request = $event->getRequest();
+        $attrs = $request->attributes->all();
 
         if (\View::getView() === true) {
             //si es true, no se establecó
-            $attrs = $request->attributes->all();
-
-            \View::select($attrs['_controller_path'] . '/' . $attrs['_action']);
+            $view = $attrs['_controller_path'] . '/' . $attrs['_action'];
+        } else {
+            $view = $attrs['_controller_path'] . '/' . \View::getView();
         }
 
-        $content = $this->view->render(\View::getView()
-            , \View::getTemplate()
+        $content = $this->view->render($view, \View::getTemplate()
             , $this->controllerProperties->getProperties());
-
-//        var_dump(\View::getView(),$content, \View::getTemplate(), $this->controllerProperties->getProperties());
 
         $event->setResponse(new Response($content));
     }
