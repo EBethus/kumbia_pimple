@@ -29,32 +29,38 @@ class RouteListener implements EventSubscriberInterface
     public function onKernelRequest(GetResponseEvent $event)
     {
         //buscamos un controller para esta ruta
-
         $request = $event->getRequest();
+
         $url = $request->getPathInfo();
+        $controller = 'index';
+        $action = 'index';
+        $parameters = array();
 
         $request->attributes->set('_parameters', array());
 
-        if ($url == '/') {
-            $request->attributes->set('_controller', $this->defaultController);
-        } else {
+        if ($url != '/') {
             $url_items = explode('/', trim($url, '/'));
 
             $controller = current($url_items);
 
             if (next($url_items) === false) {
-                $request->attributes->set('_controller', "{$controller}Controller::index");
-                return;
+                goto set_attributes;
             }
 
             $action = current($url_items);
-            $request->attributes->set('_controller', "{$controller}Controller::{$action}");
 
             if (next($url_items) === false) {
-                return;
+                goto set_attributes;
             }
 
-            $request->attributes->set('_parameters', array_slice($url_items, key($url_items)));
+            $parameters = array_slice($url_items, key($url_items));
         }
+
+        set_attributes:
+
+        $request->attributes->set('_controller', "{$controller}Controller::{$action}");
+        $request->attributes->set('_parameters', $parameters);
+        $request->attributes->set('_route_controller', $controller);
+        $request->attributes->set('_route_action', $action);
     }
 }

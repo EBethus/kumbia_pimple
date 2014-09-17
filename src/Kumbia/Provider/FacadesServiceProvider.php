@@ -7,6 +7,7 @@
 namespace Kumbia\Provider;
 
 use Kumbia\InputService;
+use Kumbia\Redirect;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -30,6 +31,11 @@ class FacadesServiceProvider implements ServiceProviderInterface
             return new InputService($c['request_stack']);
         };
 
+        $pimple['redirect'] = function ($c) {
+            return new Redirect($c['request_stack']);
+        };
+
         $pimple->registerFacade('Input', __DIR__ . '/../Facades/Input.php');
+        $pimple->registerFacade('Redirect', __DIR__ . '/../Facades/Redirect.php');
     }
 }
