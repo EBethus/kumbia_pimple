@@ -9,7 +9,13 @@ $loader = require_once __DIR__ . '/../vendor/autoload.php';
 
 Debug::enable();
 
-$app = new Application($loader, __DIR__ . '/../app/', true);
+define('APP_CHARSET', 'utf-8');
+define('APP_PATH', realpath(__DIR__ . '/../app') . '/');
+define('START_TIME', microtime(TRUE));
+
+function kumbia_version() { return 'TEST 1.0'; }
+
+$app = new Application(APP_PATH, true);
 
 $app->register(new DebugbarServiceProvider());
 

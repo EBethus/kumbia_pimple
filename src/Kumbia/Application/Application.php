@@ -23,9 +23,8 @@ class Application extends Container
     protected $booted = false;
     protected $serviceProviders = array();
 
-    public function __construct(ClassLoader $loader, $rootDir, $debug = false)
+    public function __construct($rootDir, $debug = false)
     {
-        $this['loader'] = $loader;
         $this['root_dir'] = $rootDir;
 
         $this->register(new ApplicationServiceProvider());
@@ -54,7 +53,6 @@ class Application extends Container
     {
         parent::register($provider, $values);
 
-//        $this['loader']->addClassMap();
         foreach($provider->getFacades() as $alias => $class){
             class_alias($class, $alias);
         }
