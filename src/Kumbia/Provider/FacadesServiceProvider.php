@@ -31,8 +31,8 @@ class FacadesServiceProvider extends ServiceProvider
     public function getFacades()
     {
         return array(
-            'Input' => __DIR__ . '/../Facades/Input.php',
-            'Redirect' => __DIR__ . '/../Facades/Redirect.php',
+            'Input' => 'Kumbia\Facades\InputFacade',
+            'Redirect' => 'Kumbia\Facades\RedirectFacade',
         );
     }
 

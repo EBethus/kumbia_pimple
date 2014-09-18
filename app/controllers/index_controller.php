@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @autor Manuel Aguirre <programador.manuel@gmail.com>
  */
-class indexController
+class IndexController
 {
     public function index($otro = 'jeje')
     {

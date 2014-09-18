@@ -2,7 +2,8 @@
     "require":{
         "pimple/pimple": "~2.0",
         "symfony/http-foundation": "~2.3",
-        "symfony/http-kernel": "~2.3"
+        "symfony/http-kernel": "~2.3",
+        "maximebf/debugbar": "1.*"
     },
     "autoload":{
         "psr-0":{

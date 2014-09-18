@@ -50,10 +50,10 @@ class ViewServiceProvider extends ServiceProvider
     public function getFacades()
     {
         return array(
-            'View' => __DIR__ . '/../Facade/View.php',
+            'View' => 'Kumbia\View\Facade\ViewFacade',
             //helpers
-            'Tag' => __DIR__ . '/../Facade/Tag.php',
-            'Html' => __DIR__ . '/../Facade/Html.php',
+            'Tag' => 'Kumbia\View\Facade\TagFacade',
+            'Html' => 'Kumbia\View\Facade\HtmlFacade',
         );
     }
 

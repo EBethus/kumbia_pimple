@@ -3,13 +3,16 @@
  * 17/09/14
  * kumbia_pimple
  */
+
+namespace Kumbia\View\Facade;
+
 use Kumbia\Facades\AbstractFacade;
 
 
 /**
  * @autor Manuel Aguirre <programador.manuel@gmail.com>
  */
-class View extends AbstractFacade
+class ViewFacade extends AbstractFacade
 {
     protected static $view = true;
     protected static $template = 'default';

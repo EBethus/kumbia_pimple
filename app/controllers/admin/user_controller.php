@@ -7,7 +7,7 @@
 /**
  * @autor Manuel Aguirre <programador.manuel@gmail.com>
  */
-class userController
+class UserController
 {
     public function index()
     {

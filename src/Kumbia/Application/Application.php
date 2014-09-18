@@ -54,7 +54,10 @@ class Application extends Container
     {
         parent::register($provider, $values);
 
-        $this['loader']->addClassMap($provider->getFacades());
+//        $this['loader']->addClassMap();
+        foreach($provider->getFacades() as $alias => $class){
+            class_alias($class, $alias);
+        }
 
         $this->serviceProviders[] = $provider;
 

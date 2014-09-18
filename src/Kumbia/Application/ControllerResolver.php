@@ -25,7 +25,7 @@ class ControllerResolver implements ControllerResolverInterface
     {
         $attributes = $request->attributes->all();
 
-        $filename = $this->controllerPath . $attributes['_controller_path'] . 'Controller.php';
+        $filename = $this->controllerPath . $attributes['_controller_path'] . '_controller.php';
 
         if (!is_file($filename)) {
             throw new \InvalidArgumentException(sprintf('No existe el Controlador %s', $filename));
@@ -33,8 +33,7 @@ class ControllerResolver implements ControllerResolverInterface
 
         require_once $filename;
 
-        $controllerClass = $attributes['_controller'] . 'Controller';
-
+        $controllerClass = $this->camelize($attributes['_controller'] . '_controller');
         $controller = new $controllerClass();
 
         $callable = array($controller, $attributes['_action']);
@@ -88,5 +87,10 @@ class ControllerResolver implements ControllerResolverInterface
         }
 
         return $arguments;
+    }
+
+    protected function camelize($string)
+    {
+        return str_replace(' ', '', ucwords(str_replace('_', ' ', $string)));
     }
 } 

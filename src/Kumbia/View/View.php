@@ -6,6 +6,8 @@
 
 namespace Kumbia\View;
 
+use Kumbia\Util;
+
 /**
  * @autor Manuel Aguirre <programador.manuel@gmail.com>
  */
@@ -49,7 +51,7 @@ class View
 
         $preserve || $this->content = null;
 
-        if($return){
+        if ($return) {
             return $content;
         }
 
@@ -70,5 +72,39 @@ class View
         }
 
         return ob_get_clean();
+    }
+
+    public function partial($partial, $__time = false, $params = null, $group = 'kumbia.partials')
+    {
+//        if (PRODUCTION && $__time && !Cache::driver()->start($__time, $partial, $group)) {
+//            return;
+//        }
+
+        //Verificando el partials en el dir app
+        $__file = $this->viewPath . "/_shared/partials/$partial.phtml";
+
+//        if (!is_file($__file)) {
+//            //Verificando el partials en el dir core
+//            $__file = CORE_PATH . "views/partials/$partial.phtml";
+//        }
+
+        if ($params) {
+            if (is_string($params)) {
+                $params = Util::getParams(explode(',', $params));
+            }
+
+            // carga los parametros en el scope
+            extract($params, EXTR_OVERWRITE);
+        }
+
+        // carga la vista parcial
+        if (!include $__file) {
+            throw new \Exception('Vista Parcial "' . $__file . '" no se encontro');
+        }
+
+        // se guarda en la cache de ser requerido
+//        if (PRODUCTION && $__time) {
+//            Cache::driver()->end();
+//        }
     }
 } 

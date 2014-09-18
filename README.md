@@ -9,7 +9,8 @@ Prueba de un refactoring de kumbiaphp basado en pimple y componentes de symfony.
  * Manejo de Redirecciones estilo KumbiaPHP (Redirect::to() y Redirect::toAction()).
  * Manejo del Request (Input::get(), Input::post(), Input::hasPost(), Input::isAjax()).
  * Helpers Tag y Html.
- * Manejo de Vistas (Solo vista y template, sin cache ni partials).
+ * Manejo de Vistas (Vista, partial y template, sin cache).
+ * PHPDebugbar integrado por defecto
  
 Además aporta todos los beneficios de la DependencyInjection y agregar escuchas de eventos para extender las funcionalidades en las aplicaciones.
 
@@ -20,5 +21,4 @@ Además aporta todos los beneficios de la DependencyInjection y agregar escuchas
 
 ### Contras
 
- * Unas 3 Veces más lento que KumbiaPHP.
- * Más consumo de Memoria (No se ha verificado Cuanto).
+ * Unas 5 Veces más lento que KumbiaPHP.

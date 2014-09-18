@@ -62,6 +62,8 @@ class Html extends BaseHelper
             $attrs = $this->tagHelper->getAttrs($attrs);
         }
 
+        $action = trim($action, '/');
+
         return '<a href="' . $this->getBasePath() . "/$action\" $attrs >$text</a>";
     }
 
@@ -83,6 +85,8 @@ class Html extends BaseHelper
             $attrs = $this->tagHelper->getAttrs($attrs);
         }
 
+        $action = trim($action, '/');
+
         $prefix = $this->getRequest()->attributes->get('_controller_path');
 
         return '<a href="' . $this->getBasePath() . '/' . $prefix . "/$action\" $attrs >$text</a>";
@@ -102,6 +106,8 @@ class Html extends BaseHelper
         if (is_array($attrs)) {
             $attrs = $this->tagHelper->getAttrs($attrs);
         }
+
+        $src = trim($src, '/');
 
         return '<img src="' . $this->getBasePath() . "/img/$src\" alt=\"$alt\" $attrs />";
     }
